@@ -37,7 +37,8 @@ public class MainActivity extends AppCompatActivity implements OnConnectionFaile
                 addApi(Auth.GOOGLE_SIGN_IN_API,gso).build();
 
         googleSignInImage = findViewById(R.id.imageView);
-        googleSignInImage.setSize(SignInButton.SIZE_WIDE);
+        googleSignInImage.setSize(SignInButton.SIZE_STANDARD);
+        googleSignInImage.setColorScheme(SignInButton.COLOR_LIGHT);//Vuelve el boton transparentre
         googleSignInImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
