@@ -9,56 +9,67 @@
     tools:layout_editor_absoluteY="-35dp">
 
     <TextView
-        android:id="@+id/titleTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="96dp"
-        android:text="Create Account"
+        android:id="@+id/registroTextView"
+        android:layout_width="250dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="54dp"
+        android:layout_marginBottom="36dp"
+        android:gravity="center"
+        android:text="Create"
         android:textColor="@color/white"
-        android:textSize="32sp"
+        android:textSize="54sp"
+        app:layout_constraintBottom_toTopOf="@+id/registroEmaileditTextTextEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/registroEmaileditTextTextEmailAddress"
-        android:layout_width="347dp"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_below="@id/registroUsernameEditText"
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="23dp"
+        android:drawablePadding="20dp"
         android:background="#30ffffff"
+        android:drawableLeft="@drawable/correoelectronico"
         android:hint="Email"
-        android:padding="16dp"
+        android:padding="20dp"
         android:textColor="@color/white"
         android:textColorHint="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/registroUsernameEditText"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/registroTextView"/>
 
     <EditText
         android:id="@+id/registroUsernameEditText"
-        android:layout_width="347dp"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_below="@id/passwordEditText"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="280dp"
         android:layout_marginEnd="30dp"
+        android:layout_marginBottom="23dp"
+        android:drawablePadding="20dp"
         android:background="#30ffffff"
+        android:drawableLeft="@drawable/usuario"
         android:hint="Username"
-        android:padding="16dp"
+        android:padding="20dp"
         android:textColor="@color/white"
         android:textColorHint="@color/white"
+        app:layout_constraintTop_toBottomOf="@+id/registroEmaileditTextTextEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@id/passwordEditText" />
 
     <EditText
         android:id="@+id/passwordEditText"
+        android:drawablePadding="20dp"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="36dp"
         android:layout_marginEnd="30dp"
         android:background="#30ffffff"
         android:drawableLeft="@drawable/bloquear"
@@ -68,12 +79,13 @@
         android:textColor="@color/white"
         android:textColorHint="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/registroUsernameEditText" />
 
     <EditText
-        android:id="@+id/passwordEditText"
+        android:id="@+id/confirmPasswordEditText"
+        android:drawablePadding="20dp"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
@@ -91,7 +103,7 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/passwordEditText"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.932" />
 
     <Button
         android:id="@+id/registerButton"
