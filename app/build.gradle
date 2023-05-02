@@ -47,6 +47,5 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
     implementation platform('com.google.firebase:firebase-bom:29.1.0')
     implementation 'com.google.firebase:firebase-firestore-ktx'
-
-
+    implementation 'com.google.firebase:firebase-appcheck:16.0.0-beta03'
 }
