@@ -88,7 +88,8 @@
         android:text="Create account"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout_editor_absoluteX="158dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <!--<com.google.android.gms.common.SignInButton
         android:id="@+id/imageView"
