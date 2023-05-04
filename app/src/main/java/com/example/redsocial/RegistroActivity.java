@@ -9,11 +9,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 public class RegistroActivity extends AppCompatActivity {
     private FirebaseDatabase database;
@@ -42,28 +39,20 @@ public class RegistroActivity extends AppCompatActivity {
     }
 
     public void createUser(View v){
-        DatabaseReference referenciaBD = database.getReference("Usuarios").child(correoUser.getText().toString());
-        referenciaBD.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                // Aquí puedes obtener el usuario de la base de datos
-                Usuarios usuario = dataSnapshot.getValue(Usuarios.class);
-                if(usuario == (null)){
-                    if(confirmPswUser.getText().equals(pswUser.getText())){
-                        referenciaBD.child(correoUser.getText().toString()).setValue(new Usuarios(correoUser.getText().toString(),nombreUser.getText().toString(),pswUser.getText().toString()));
-                    }else{
-                        Toast.makeText(getApplicationContext(),"Las contraseñas no coinciden",Toast.LENGTH_LONG).show();
-                    }
-                }else{
-                    Toast.makeText(getApplicationContext(),"Este usuario ya existe",Toast.LENGTH_LONG).show();
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-
-        });
+       //abaseReference referenciaBD = database.getReference("Usuarios").child(correoUser.getText().toString());
+       //erenciaBD.addListenerForSingleValueEvent(new ValueEventListener() {
+       // @Override
+       // public void onDataChange(DataSnapshot dataSnapshot) {
+       //     // Aquí puedes obtener el usuario de la base de datos
+       //     Usuarios usuario = dataSnapshot.getValue(Usuarios.class);
+       //     if(usuario == (null)){
+       //         if(confirmPswUser.getText().equals(pswUser.getText())){
+       //             referenciaBD.child(correoUser.getText().toString()).setValue(new Usuarios(correoUser.getText().toString(),nombreUser.getText().toString(),pswUser.getText().toString()));
+       //         }else{
+       //             Toast.makeText(getApplicationContext(),"Las contraseñas no coinciden",Toast.LENGTH_LONG).show();
+       //         }
+       //     }else{
+       //         Toast.makeText(getApplicationContext(),"Este usuario ya existe",Toast.LENGTH_LONG).show();
+       //     }
     }
 }

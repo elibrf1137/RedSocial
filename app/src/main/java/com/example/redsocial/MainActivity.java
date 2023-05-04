@@ -11,11 +11,8 @@
  import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
  import com.google.android.gms.common.ConnectionResult;
  import com.google.android.gms.common.SignInButton;
- import com.google.firebase.auth.FirebaseUser;
 
  import androidx.appcompat.app.AppCompatActivity;
- import com.google.firebase.database.DatabaseReference;
- import com.google.firebase.database.FirebaseDatabase;
 
  public class MainActivity extends AppCompatActivity {
 
@@ -23,21 +20,21 @@
 //    private GoogleApiClient googleApiClient;
 //    private static final int RC_SIGN_IN = 9001;
 //    private GoogleSignInOptions gso;
-    private FirebaseDatabase database;
-    private DatabaseReference usersRef;
+//    private FirebaseDatabase database;
+//    private DatabaseReference usersRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        database = FirebaseDatabase.getInstance();
+        //database = FirebaseDatabase.getInstance();
         //gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
         initComponents();
     }
 
      private void initComponents(){
-         database = FirebaseDatabase.getInstance();
-         usersRef = database.getReference("Usuarios");
+//         database = FirebaseDatabase.getInstance();
+//         usersRef = database.getReference("Usuarios");
 
 //         googleApiClient = new GoogleApiClient.Builder(this).enableAutoManage(this,this).addApi(Auth.GOOGLE_SIGN_IN_API,gso).build();
 //         googleSignInImage = findViewById(R.id.imageView);
