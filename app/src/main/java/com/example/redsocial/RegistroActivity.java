@@ -55,7 +55,8 @@ public class RegistroActivity extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if(task.isSuccessful()){
-                        userCreado();
+                        Toast.makeText(getApplicationContext(),"Usuario creado correctamente",Toast.LENGTH_SHORT).show();
+                        //userCreado();
                     }else{
                         userNoCreado();
                     }
@@ -63,15 +64,6 @@ public class RegistroActivity extends AppCompatActivity {
             });
         }
     }
-    private void userCreado(){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Correcto!");
-        builder.setMessage("Se ha añadido tu usuario correctamente");
-        builder.setPositiveButton("Aceptar",null);
-        Dialog dialog = builder.create();
-        dialog.show();
-    }
-
     private void userNoCreado(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Error");
@@ -80,4 +72,14 @@ public class RegistroActivity extends AppCompatActivity {
         Dialog dialog = builder.create();
         dialog.show();
     }
+
+//------------------------------------------------------------------------
+    //private void userCreado(){
+    //    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    //    builder.setTitle("Correcto!");
+    //    builder.setMessage("Se ha añadido tu usuario correctamente");
+    //    builder.setPositiveButton("Aceptar",null);
+    //    Dialog dialog = builder.create();
+    //    dialog.show();
+    //}
 }
