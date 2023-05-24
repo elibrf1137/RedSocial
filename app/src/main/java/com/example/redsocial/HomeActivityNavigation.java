@@ -1,10 +1,13 @@
 package com.example.redsocial;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
@@ -18,6 +21,9 @@ public class HomeActivityNavigation extends AppCompatActivity {
     ProfileFragment profileFragment;
     HomeFragment homeFragment;
 
+    FragmentManager fragmentManager;
+    FragmentTransaction fragmentTransaction;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,6 +34,8 @@ public class HomeActivityNavigation extends AppCompatActivity {
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                fragmentManager = getSupportFragmentManager();
+                fragmentTransaction = fragmentManager.beginTransaction();
                 switch (item.getItemId()){
                     case R.id.navigation_home:
                         setFragment(profileFragment);
@@ -47,6 +55,11 @@ public class HomeActivityNavigation extends AppCompatActivity {
 
         profileFragment = new ProfileFragment();
         homeFragment = new HomeFragment();
+
+        fragmentManager = getSupportFragmentManager();
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.frametLayout, new ProfileFragment());
+        fragmentTransaction.commit();
 
     }
 
