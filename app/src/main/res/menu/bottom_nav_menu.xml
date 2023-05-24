@@ -7,8 +7,14 @@
         android:title="@string/title_home"/>
 
     <item
+        android:id="@+id/navigation_add_publication"
+        android:icon="@drawable/anadir"
+        android:title="@string/navigation_add_publication"/>
+
+    <item
         android:id="@+id/navigation_profile"
         android:icon="@drawable/usuariodeperfil"
         android:title="@string/navigation_perfil"/>
+
 
 </menu>

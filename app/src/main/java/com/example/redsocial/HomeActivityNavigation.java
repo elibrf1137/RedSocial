@@ -21,6 +21,8 @@ public class HomeActivityNavigation extends AppCompatActivity {
     ProfileFragment profileFragment;
     HomeFragment homeFragment;
 
+    PulicationFragment pulicationFragment;
+
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
 
@@ -38,11 +40,16 @@ public class HomeActivityNavigation extends AppCompatActivity {
                 fragmentTransaction = fragmentManager.beginTransaction();
                 switch (item.getItemId()){
                     case R.id.navigation_home:
-                        setFragment(profileFragment);
-                        return true;
-                    case R.id.navigation_profile:
                         setFragment(homeFragment);
                         return true;
+                    case R.id.navigation_profile:
+                        setFragment(profileFragment);
+                        return true;
+
+                    case R.id.navigation_add_publication:
+                        setFragment(pulicationFragment);
+                        return true;
+
                 }
                 return false;
             }
@@ -55,6 +62,7 @@ public class HomeActivityNavigation extends AppCompatActivity {
 
         profileFragment = new ProfileFragment();
         homeFragment = new HomeFragment();
+        pulicationFragment = new PulicationFragment();
 
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
