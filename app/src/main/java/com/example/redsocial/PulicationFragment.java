@@ -12,6 +12,8 @@ import android.widget.EditText;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.HashMap;
+
 public class PulicationFragment extends Fragment {
 
     private FirebaseFirestore miBaseDatos;
@@ -25,18 +27,16 @@ public class PulicationFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         myView =inflater.inflate(R.layout.fragment_pulication,container,false);
         addButton = myView.findViewById(R.id.addPublicationButton);
         mensajeEditText = myView.findViewById(R.id.pulicationEditTextText);
         miBaseDatos = FirebaseFirestore.getInstance();
-
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String mensejeUser = mensajeEditText.getText().toString();
-
-
+                //Tienes que conseguir obtener el usuario desde la case login y para ello debes recoger los datos de la base de datos desde dicha clase
+                //createPublication(mensejeUser, );
             }
         });
 
@@ -44,7 +44,10 @@ public class PulicationFragment extends Fragment {
     }
 
     private void createPublication(String mensajeUser, Usuarios user){
-
+        user.getListaPublicaciones().add(new Publicacion(mensajeUser));
+        HashMap <String,Usuarios> listaActualizada = new HashMap<>();
+        listaActualizada.put(user.getCorreo(),user);
+        miBaseDatos.collection("Users").document(user.getCorreo().toString()).set(listaActualizada);
     }
 
 }
