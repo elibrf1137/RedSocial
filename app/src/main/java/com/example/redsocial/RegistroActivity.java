@@ -21,6 +21,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
 
 public class RegistroActivity extends AppCompatActivity {
     private FirebaseDatabase database;
@@ -31,6 +34,8 @@ public class RegistroActivity extends AppCompatActivity {
     private EditText confirmPswUser;
     private Button registroButton;
 
+    private FirebaseFirestore miBaseDatos;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +45,7 @@ public class RegistroActivity extends AppCompatActivity {
 
     private void initComponents() {
         database = FirebaseDatabase.getInstance();
+        miBaseDatos = FirebaseFirestore.getInstance();
         usersRef = database.getReference("Usuarios");
         correoUser = findViewById(R.id.registroEmaileditText);
         nombreUser = findViewById(R.id.registroUsernameEditText);
@@ -54,7 +60,10 @@ public class RegistroActivity extends AppCompatActivity {
             FirebaseAuth.getInstance().createUserWithEmailAndPassword(newUser.getCorreo(),newUser.getPsw()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
+                    HashMap <String, Usuarios> listaUsuarios = new HashMap<>();
                     if(task.isSuccessful()){
+                        listaUsuarios.put(newUser.getCorreo(),newUser);
+                        miBaseDatos.collection("Users").document(correoUser.getText().toString()).set(listaUsuarios);
                         Toast.makeText(getApplicationContext(),"Usuario creado correctamente",Toast.LENGTH_SHORT).show();
                         //userCreado();
                     }else{

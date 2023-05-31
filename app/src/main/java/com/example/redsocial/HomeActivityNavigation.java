@@ -17,12 +17,9 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 public class HomeActivityNavigation extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
     FrameLayout frameLayout;
-
     ProfileFragment profileFragment;
     HomeFragment homeFragment;
-
     PulicationFragment pulicationFragment;
-
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
 
@@ -49,7 +46,6 @@ public class HomeActivityNavigation extends AppCompatActivity {
                     case R.id.navigation_add_publication:
                         setFragment(pulicationFragment);
                         return true;
-
                 }
                 return false;
             }

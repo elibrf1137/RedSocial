@@ -16,6 +16,7 @@
  import com.google.firebase.auth.SignInMethodQueryResult;
  import com.google.firebase.database.DatabaseReference;
  import com.google.firebase.database.FirebaseDatabase;
+ import com.google.firebase.firestore.FirebaseFirestore;
 
  import androidx.annotation.NonNull;
  import androidx.appcompat.app.AlertDialog;
@@ -24,10 +25,11 @@
  import java.util.Objects;
 
  public class LogActivity extends AppCompatActivity {
-
      EditText userEmail;
      EditText userPsw;
      Button loginButton;
+     Usuarios user;
+     private FirebaseFirestore miBaseDatos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +73,10 @@
          builder.setPositiveButton("OK",null);
          Dialog dialog = builder.create();
          dialog.show();
+     }
+
+     public Usuarios getUser() {
+         return user;
      }
 
 }

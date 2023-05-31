@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,39 +8,23 @@
     android:layout_marginTop="100dp"
     android:layout_marginRight="50dp"
     android:layout_marginBottom="300dp"
-    android:background="@color/white"
+    android:background="@drawable/estilo_edittext"
     tools:context=".PulicationFragment">
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/addPublicationButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/textView"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="179dp"
         android:layout_marginBottom="30dp"
         android:background="@drawable/estilo_botones"
+        android:onClick="addPublication"
         android:text="Añadir"
-        android:textColor="#000000" />
-
-    <EditText
-        android:id="@+id/descTextView"
-        android:layout_width="247dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="115dp"
-        android:layout_marginEnd="30dp"
-        android:layout_weight="1"
-        android:background="@drawable/estilo_edittext"
-        android:ems="10"
-        android:gravity="center|start|top"
-        android:hint="Hoy fuen un día..."
-        android:inputType="textMultiLine"
-        android:padding="15dp"
-        android:textColor="@color/white"
-        android:textColorHint="#000000" />
+        android:textColor="#000000"
+        android:textSize="20dp" />
 
     <TextView
         android:id="@+id/textView"
@@ -55,5 +40,16 @@
         android:gravity="center"
         android:text="¿Qué quieres publicar hoy?"
         android:textColor="#000000" />
+
+    <EditText
+        android:id="@+id/pulicationEditTextText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:ems="10"
+        android:hint="Hoy fue un dia..."
+        android:inputType="text"
+        android:textColor="#000000"
+        android:textColorHint="#404040" />
 
 </RelativeLayout>
