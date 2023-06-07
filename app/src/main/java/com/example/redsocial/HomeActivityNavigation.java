@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 
@@ -22,17 +23,22 @@ public class HomeActivityNavigation extends AppCompatActivity {
     PulicationFragment pulicationFragment;
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
+    Bundle getDatos;
+    String correoUsuario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_navigation);
         initComponente();
+        correoUsuario = getDatos.getString("correoUsuario");
+        Log.d("Correo desde HomeActivityNavigation",correoUsuario);
         setFragment(homeFragment);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
                 fragmentManager = getSupportFragmentManager();
                 fragmentTransaction = fragmentManager.beginTransaction();
                 switch (item.getItemId()){
@@ -53,11 +59,15 @@ public class HomeActivityNavigation extends AppCompatActivity {
     }
 
     private void initComponente() {
+
+
         bottomNavigationView = findViewById(R.id.bottonNavigationView);
         frameLayout = findViewById(R.id.frametLayout);
 
-        profileFragment = new ProfileFragment();
         homeFragment = new HomeFragment();
+
+        profileFragment = new ProfileFragment();
+
         pulicationFragment = new PulicationFragment();
 
         fragmentManager = getSupportFragmentManager();
@@ -65,9 +75,15 @@ public class HomeActivityNavigation extends AppCompatActivity {
         fragmentTransaction.replace(R.id.frametLayout, new ProfileFragment());
         fragmentTransaction.commit();
 
+        getDatos = getIntent().getExtras();
+
     }
 
     private void setFragment(Fragment fragment){
+        Bundle correoUserBundle = new Bundle();
+        correoUserBundle.putString("bundleCorreoUser",correoUsuario);
+
+        fragment.setArguments(correoUserBundle);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.frametLayout,fragment);
         transaction.commit();
