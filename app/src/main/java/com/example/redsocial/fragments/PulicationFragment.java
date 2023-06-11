@@ -1,7 +1,6 @@
 package com.example.redsocial.fragments;
 
-import static android.content.ContentValues.TAG;
-
+import android.hardware.camera2.CameraCharacteristics;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -17,36 +16,40 @@ import android.widget.Toast;
 
 import com.example.redsocial.publicaciones.Publicacion;
 import com.example.redsocial.R;
-import com.example.redsocial.usuarios.Usuarios;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class PulicationFragment extends Fragment {
 
     private FirebaseFirestore miBaseDatos;
-    Button addButton;
-    EditText mensajeEditText;
-    View myView;
+    private Button addButton;
+    private EditText mensajeEditText;
+    private View myView;
 
-    String correoUser;
+    private String correoUser;
 
     public PulicationFragment() {
-        // Required empty public constructor
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         miBaseDatos = FirebaseFirestore.getInstance();
-
-
         if(getArguments() != null){
             correoUser = getArguments().getString("bundleCorreoUser");
         }
+
         Toast.makeText(getContext(),"Correo de usuario: "+ correoUser,Toast.LENGTH_SHORT);
         myView =inflater.inflate(R.layout.fragment_pulication,container,false);
         addButton = myView.findViewById(R.id.addPublicationButton);
@@ -56,39 +59,87 @@ public class PulicationFragment extends Fragment {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!mensajeEditText.getText().toString().isEmpty()){
-                    DocumentReference docRef = miBaseDatos.collection("Users").document(correoUser);
-                    docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                            if(task.isSuccessful()){
-                                DocumentSnapshot document = task.getResult();
-                                if(document.exists()){
-                                    Log.d(TAG, "Mis datos de usuario: " + document.getData());
-                                }else{
-                                    Toast.makeText(getContext(),"El documento no existe",Toast.LENGTH_SHORT).show();
-                                }
-                            }else{
-                                Toast.makeText(getContext(),"Ups, ha ocurrido un error",Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
-
-                    String mensejeUser = mensajeEditText.getText().toString();
-                    //createPublication(mensejeUser, );
+                if(!mensajeEditText.getText().toString().isEmpty() && mensajeEditText !=null){
+                    agregarPublicaciones(mensajeEditText.getText().toString());
+                    Log.d("Mensaje añadido con exito","Dale zelda dale");
+                    Toast.makeText(getContext(),"Dale zelda dale",Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(getContext(),"Me cago en la leche",Toast.LENGTH_SHORT).show();
                 }
 
             }
         });
 
-        return inflater.inflate(R.layout.fragment_pulication, container, false);
+        return myView;
     }
 
-    private void createPublication(String mensajeUser, Usuarios user){
-        user.getListaPublicaciones().add(new Publicacion(mensajeUser));
-        HashMap <String,Usuarios> listaActualizada = new HashMap<>();
-        listaActualizada.put(user.getCorreo(),user);
-        miBaseDatos.collection("Users").document(user.getCorreo().toString()).set(listaActualizada);
+    public void agregarPublicaciones(String publicacion){
+        // Obtén una referencia al documento
+        DocumentReference docRefUser = miBaseDatos.collection("Users").document(correoUser);
+        CollectionReference collectionRefPublication = miBaseDatos.collection("publicaciones");
+
+        // Actualiza el array en el documento
+        docRefUser.update("listaPublicaciones", FieldValue.arrayUnion(publicacion)).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.d("Firestore", "Elemento añadido al array correctamente");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("Firestore", "Error al añadir el elemento al array: " + e.getMessage());
+            }
+        });
+        Map <String,Object> publicacionAnhadida = new HashMap<>();
+        publicacionAnhadida.put(correoUser+publicacionAnhadida,publicacion);
+        collectionRefPublication.add(publicacionAnhadida);
+
     }
 
+
+    private void cargarListaPublicaciones(String publi){
+
+        // Obtén una referencia al documento
+        DocumentReference docRef = miBaseDatos.collection("Users").document(correoUser);
+
+        // Recupera los datos del documento
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        ArrayList<Publicacion>arrayList = new ArrayList<>();
+                        // Recupera el ArrayList existente
+                        String[] listPublication = document.getData().toString().split("\\[")[1].split("\\]")[0].split("/$$/");
+                        for (String s : listPublication){
+                            arrayList.add(new Publicacion(s));
+                        }
+                        // Realiza las modificaciones necesarias en el ArrayList
+                        arrayList.add(new Publicacion(publi));
+
+                        // Actualiza el ArrayList en el documento
+                        docRef.update("listaPublicaciones", arrayList)
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Log.d("Firestore", "ArrayList actualizado correctamente");
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.d("Firestore", "Error al actualizar el ArrayList: " + e.getMessage());
+                                    }
+                                });
+                    } else {
+                        Log.d("Firestore", "El documento no existe");
+                    }
+                } else {
+                    Log.d("Firestore", "Error al recuperar el documento: " + task.getException());
+                }
+            }
+        });
+
+    }
 }
+

@@ -16,4 +16,9 @@ public class Publicacion  implements Serializable {
     public void setMensaje(String mensaje) {
         this.mensaje = mensaje;
     }
+
+    @Override
+    public String toString() {
+        return  mensaje + " /&&\\ ";
+    }
 }

@@ -7,6 +7,8 @@
     android:background="@drawable/background7">
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/listaPublicacionesRV"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:background="#9AA8D0" />
 </FrameLayout>

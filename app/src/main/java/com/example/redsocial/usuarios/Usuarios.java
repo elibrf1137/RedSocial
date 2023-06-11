@@ -9,15 +9,12 @@ public class Usuarios implements Serializable{
     private String correo;
     private String nombre;
     private String psw;
-    private ArrayList<Publicacion> listaPublicaciones;
-
 
 
     public Usuarios(String correo, String nombre, String psw) {
         this.correo = correo;
         this.nombre = nombre;
         this.psw = psw;
-        listaPublicaciones = new ArrayList<>();
     }
 
     public String getCorreo() {
@@ -42,13 +39,5 @@ public class Usuarios implements Serializable{
 
     public void setPsw(String psw) {
         this.psw = psw;
-    }
-
-    public ArrayList<Publicacion> getListaPublicaciones() {
-        return listaPublicaciones;
-    }
-
-    public void setListaPublicaciones(ArrayList<Publicacion> listaPublicaciones) {
-        this.listaPublicaciones = listaPublicaciones;
     }
 }
