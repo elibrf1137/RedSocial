@@ -80,15 +80,19 @@ public class ProfileFragment extends Fragment {
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
+                    if (document.exists() && document.get("listaPublicaciones")!=null) {
                         // Obtiene el valor del campo de tipo array
                         String[] publicaciones = document.get("listaPublicaciones").toString().split("//_-_//,");
-                        if(publicaciones.length>1){
+                        if(publicaciones.length>0){
                             for (int i = 0; i<publicaciones.length;i++){
-                                if(i==0){
-                                    listaPublicaciones.put(String.valueOf(i),publicaciones[0].substring(1));
+                                if(i == 0){
+                                    listaPublicaciones.put(String.valueOf(i),publicaciones[i].substring(1));
                                 }else{
-                                    listaPublicaciones.put(String.valueOf(i),publicaciones[i]);
+                                    if(i == publicaciones.length-1){
+                                        listaPublicaciones.put(String.valueOf(i),publicaciones[i].substring(0,publicaciones[i].length()-8));
+                                    }else{
+                                        listaPublicaciones.put(String.valueOf(i),publicaciones[i]);
+                                    }
                                 }
 
                             }

@@ -29,9 +29,12 @@ public class AdaptadorPublicaciones  extends RecyclerView.Adapter<AdaptadorPubli
     public AdaptadorPublicaciones (Context context,HashMap listaPublicacion){
         this.layoutInflater = LayoutInflater.from(context);
         this.listaPublicacion = listaPublicacion;
-        for(String key: this.listaPublicacion.keySet()){
-            Log.d("Datos qiue llegan al adaptador", (String) listaPublicacion.get(key));
+        if(!listaPublicacion.isEmpty()){
+            for(String key: this.listaPublicacion.keySet()){
+                Log.d("Datos que llegan al adaptador", (String) listaPublicacion.get(key));
+            }
         }
+
     }
 
 
