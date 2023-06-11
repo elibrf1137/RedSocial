@@ -1,4 +1,4 @@
-package com.example.redsocial;
+package com.example.redsocial.fragments;
 
 import static android.content.ContentValues.TAG;
 
@@ -15,6 +15,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.redsocial.publicaciones.Publicacion;
+import com.example.redsocial.R;
+import com.example.redsocial.usuarios.Usuarios;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;

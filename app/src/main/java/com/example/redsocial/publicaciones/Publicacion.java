@@ -1,4 +1,4 @@
-package com.example.redsocial;
+package com.example.redsocial.publicaciones;
 
 import java.io.Serializable;
 

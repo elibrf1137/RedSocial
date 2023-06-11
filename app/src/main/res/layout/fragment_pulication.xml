@@ -9,7 +9,7 @@
     android:layout_marginRight="50dp"
     android:layout_marginBottom="300dp"
     android:background="@drawable/estilo_edittext"
-    tools:context=".PulicationFragment">
+    tools:context=".fragments.PulicationFragment">
 
     <Button
         android:id="@+id/addPublicationButton"

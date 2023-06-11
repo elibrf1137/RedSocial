@@ -18,7 +18,7 @@
             android:exported="false"
             android:label="@string/title_activity_home_navigation" />
         <activity
-            android:name=".RegistroActivity"
+            android:name=".usuarios.RegistroActivity"
             android:exported="false" />
 
         <meta-data
@@ -26,7 +26,7 @@
             android:value="@integer/google_play_services_version" />
 
         <activity
-            android:name=".LogActivity"
+            android:name=".usuarios.LogActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

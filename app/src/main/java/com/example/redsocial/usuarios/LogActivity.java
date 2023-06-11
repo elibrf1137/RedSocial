@@ -1,4 +1,4 @@
- package com.example.redsocial;
+ package com.example.redsocial.usuarios;
 
  import android.app.Dialog;
  import android.content.Intent;
@@ -8,13 +8,12 @@
  import android.widget.Button;
  import android.widget.EditText;
 
+ import com.example.redsocial.HomeActivityNavigation;
+ import com.example.redsocial.R;
  import com.google.android.gms.tasks.OnCompleteListener;
- import com.google.android.gms.tasks.OnSuccessListener;
  import com.google.android.gms.tasks.Task;
  import com.google.firebase.auth.FirebaseAuth;
  import com.google.firebase.auth.SignInMethodQueryResult;
- import com.google.firebase.firestore.DocumentReference;
- import com.google.firebase.firestore.DocumentSnapshot;
  import com.google.firebase.firestore.FirebaseFirestore;
 
  import androidx.annotation.NonNull;
@@ -59,7 +58,7 @@
                     if(!Objects.requireNonNull(result.getSignInMethods()).isEmpty()){
                         Log.d("Correo del usuario: ",userEmail.getText().toString());
                         datosUsuario.putString("correoUsuario",userEmail.getText().toString());
-                        Intent intentHomeActivity = new Intent(getApplicationContext(),HomeActivityNavigation.class);
+                        Intent intentHomeActivity = new Intent(getApplicationContext(), HomeActivityNavigation.class);
                         intentHomeActivity.putExtras(datosUsuario);
                         startActivity(intentHomeActivity);
                     }

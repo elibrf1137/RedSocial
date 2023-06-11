@@ -1,4 +1,6 @@
-package com.example.redsocial;
+package com.example.redsocial.usuarios;
+
+import com.example.redsocial.publicaciones.Publicacion;
 
 import java.io.Serializable;
 import java.util.ArrayList;

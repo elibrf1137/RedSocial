@@ -1,4 +1,4 @@
-package com.example.redsocial;
+package com.example.redsocial.publicaciones;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +8,8 @@ import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.redsocial.R;
 
 import java.util.ArrayList;
 
