@@ -39,6 +39,7 @@ public class ProfileFragment extends Fragment {
     private RecyclerView recyclerViewPublicaciones;
     private AdaptadorPublicaciones adaptadorPublicaciones;
     private View miView;
+
     public ProfileFragment() {
         // Required empty public constructor
     }
@@ -65,13 +66,15 @@ public class ProfileFragment extends Fragment {
         });
         return miView;
     }
-    private void initComponents(){
+
+    private void initComponents() {
         listaPublicaciones = new HashMap<>();
         correoUser = HomeActivityNavigation.getCorreoUsuario();
         addPublicationButton = miView.findViewById(R.id.addPublicationButtonProfile);
         databaseReference = FirebaseFirestore.getInstance();
     }
-    private void consultaDatos(){
+
+    private void consultaDatos() {
         DocumentReference documentoRef = databaseReference.collection("Users").document(correoUser);
 
         // Obtén el documento
@@ -80,20 +83,21 @@ public class ProfileFragment extends Fragment {
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
-                    if (document.exists() && document.get("listaPublicaciones")!=null) {
+                    if (document.exists() && document.get("listaPublicaciones") != null) {
                         // Obtiene el valor del campo de tipo array
-                        String[] publicaciones = document.get("listaPublicaciones").toString().split("//_-_//,");
-                        if(publicaciones.length>0){
-                            for (int i = 0; i<publicaciones.length;i++){
-                                if(i == 0){
-                                    listaPublicaciones.put(String.valueOf(i),publicaciones[i].substring(1));
-                                }else{
-                                    if(i == publicaciones.length-1){
-                                        listaPublicaciones.put(String.valueOf(i),publicaciones[i].substring(0,publicaciones[i].length()-8));
-                                    }else{
-                                        listaPublicaciones.put(String.valueOf(i),publicaciones[i]);
-                                    }
-                                }
+                        ArrayList<String> publicaciones = (ArrayList<String>) document.get("listaPublicaciones");
+                        if (publicaciones.size() > 0) {
+                            for (int i = 0; i < publicaciones.size(); i++) {
+                                        listaPublicaciones.put(String.valueOf(i), publicaciones.get(i));
+
+                                //if(i == 0){
+                                //    listaPublicaciones.put(String.valueOf(i),publicaciones[i].substring(1));
+                                //}else{
+                                //    if(i == publicaciones.length-1){
+                                //        listaPublicaciones.put(String.valueOf(i),publicaciones[i].substring(0,publicaciones[i].length()-8));
+                                //    }else{
+                                //        listaPublicaciones.put(String.valueOf(i),publicaciones[i]);
+                                //    }
 
                             }
                             mostrarDatos();
@@ -109,9 +113,9 @@ public class ProfileFragment extends Fragment {
         });
     }
 
-    private void mostrarDatos(){
+    private void mostrarDatos() {
         recyclerViewPublicaciones.setLayoutManager(new LinearLayoutManager(getContext()));
-        adaptadorPublicaciones = new AdaptadorPublicaciones(miView.getContext(),listaPublicaciones);
+        adaptadorPublicaciones = new AdaptadorPublicaciones(miView.getContext(), listaPublicaciones);
         recyclerViewPublicaciones.setAdapter(adaptadorPublicaciones);
     }
 }

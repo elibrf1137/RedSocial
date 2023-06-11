@@ -79,7 +79,7 @@ public class PulicationFragment extends Fragment {
         CollectionReference collectionRefPublication = miBaseDatos.collection("publicaciones");
 
         // Actualiza el array en el documento
-        docRefUser.update("listaPublicaciones", FieldValue.arrayUnion(publicacion + "//_-_//")).addOnSuccessListener(new OnSuccessListener<Void>() {
+        docRefUser.update("listaPublicaciones", FieldValue.arrayUnion(publicacion)).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
                 Log.d("Firestore", "Elemento añadido al array correctamente");
