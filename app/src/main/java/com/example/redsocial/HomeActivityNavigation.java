@@ -25,7 +25,12 @@ public class HomeActivityNavigation extends AppCompatActivity {
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
     Bundle getDatos;
-    String correoUsuario;
+
+    public static String getCorreoUsuario() {
+        return correoUsuario;
+    }
+
+    static String correoUsuario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +54,6 @@ public class HomeActivityNavigation extends AppCompatActivity {
                     case R.id.navigation_profile:
                         setFragment(profileFragment);
                         return true;
-
                     case R.id.navigation_add_publication:
                         setFragment(pulicationFragment);
                         return true;

@@ -15,50 +15,42 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.redsocial.HomeActivityNavigation;
 import com.example.redsocial.R;
 import com.example.redsocial.publicaciones.AdaptadorPublicaciones;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class ProfileFragment extends Fragment {
     private String correoUser;
     private FirebaseFirestore databaseReference;
     private Button addPublicationButton;
     private HashMap<String, String> listaPublicaciones;
-
     private RecyclerView recyclerViewPublicaciones;
-
     private AdaptadorPublicaciones adaptadorPublicaciones;
-
-    public String getCorreoUser() {
-        return correoUser;
-    }
-
-    public HashMap<String,String> getListaPublicaciones() {
-        return listaPublicaciones;
-    }
     private View miView;
-
     public ProfileFragment() {
         // Required empty public constructor
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        if(getArguments() != null){
-            correoUser = getArguments().getString("bundleCorreoUser");
-        }
+
         miView = inflater.inflate(R.layout.fragment_profile, container, false);
-        recyclerViewPublicaciones = miView.findViewById(R.id.listaPublicacionesRV);
+        recyclerViewPublicaciones = miView.findViewById(R.id.listaPublicacionesPersonales);
         initComponents();
-        consultaDatosDos();
+        //Toast.makeText(getContext(),correoUser,Toast.LENGTH_SHORT).show();
+        consultaDatos();
 
         addPublicationButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,36 +66,40 @@ public class ProfileFragment extends Fragment {
         return miView;
     }
     private void initComponents(){
+        listaPublicaciones = new HashMap<>();
+        correoUser = HomeActivityNavigation.getCorreoUsuario();
         addPublicationButton = miView.findViewById(R.id.addPublicationButtonProfile);
         databaseReference = FirebaseFirestore.getInstance();
     }
-
     private void consultaDatos(){
-        databaseReference.collection("Users").document("listaPublicaciones").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()){
-                    String[] listaPublicacionesPersonales;
-                    DocumentSnapshot ds= task.getResult();
-                    Log.d("Lista de publicaciones personales",ds.getData().toString());
-                }
-            }
-        });
-    }
-    private void consultaDatosDos(){
-        DocumentReference docRef = databaseReference.collection("Users").document("listaPublicaciones");
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        DocumentReference documentoRef = databaseReference.collection("Users").document(correoUser);
+
+        // Obtén el documento
+        documentoRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        Log.d("Lista publicaciones personales", "DocumentSnapshot data: " + document.getData());
+                        // Obtiene el valor del campo de tipo array
+                        String[] publicaciones = document.get("listaPublicaciones").toString().split("//_-_//,");
+                        if(publicaciones.length>1){
+                            for (int i = 0; i<publicaciones.length;i++){
+                                if(i==0){
+                                    listaPublicaciones.put(String.valueOf(i),publicaciones[0].substring(1));
+                                }else{
+                                    listaPublicaciones.put(String.valueOf(i),publicaciones[i]);
+                                }
+
+                            }
+                            mostrarDatos();
+                        }
+
                     } else {
-                        Log.d("Lista publicaciones personales", "No such document");
+                        Log.d("TAG", "El documento no existe");
                     }
                 } else {
-                    Log.d("Lista publicaciones personales", "get failed with ", task.getException());
+                    Log.d("TAG", "Error obteniendo el documento: ", task.getException());
                 }
             }
         });
@@ -111,7 +107,7 @@ public class ProfileFragment extends Fragment {
 
     private void mostrarDatos(){
         recyclerViewPublicaciones.setLayoutManager(new LinearLayoutManager(getContext()));
-        adaptadorPublicaciones = new AdaptadorPublicaciones(getContext(),listaPublicaciones);
+        adaptadorPublicaciones = new AdaptadorPublicaciones(miView.getContext(),listaPublicaciones);
         recyclerViewPublicaciones.setAdapter(adaptadorPublicaciones);
     }
 }
