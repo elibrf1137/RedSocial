@@ -76,7 +76,6 @@ public class ProfileFragment extends Fragment {
 
     private void consultaDatos() {
         DocumentReference documentoRef = databaseReference.collection("Users").document(correoUser);
-
         // Obtén el documento
         documentoRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -88,21 +87,10 @@ public class ProfileFragment extends Fragment {
                         ArrayList<String> publicaciones = (ArrayList<String>) document.get("listaPublicaciones");
                         if (publicaciones.size() > 0) {
                             for (int i = 0; i < publicaciones.size(); i++) {
-                                        listaPublicaciones.put(String.valueOf(i), publicaciones.get(i));
-
-                                //if(i == 0){
-                                //    listaPublicaciones.put(String.valueOf(i),publicaciones[i].substring(1));
-                                //}else{
-                                //    if(i == publicaciones.length-1){
-                                //        listaPublicaciones.put(String.valueOf(i),publicaciones[i].substring(0,publicaciones[i].length()-8));
-                                //    }else{
-                                //        listaPublicaciones.put(String.valueOf(i),publicaciones[i]);
-                                //    }
-
+                                        listaPublicaciones.put(correoUser+(i), publicaciones.get(i));
                             }
                             mostrarDatos();
                         }
-
                     } else {
                         Log.d("TAG", "El documento no existe");
                     }

@@ -49,7 +49,7 @@ public class LogActivity extends AppCompatActivity {
     }
 
     public void iniciarSesion(View view){
-        if(!userEmail.getText().toString().isEmpty() && !userPsw.getText().toString().isEmpty())
+        if(!userEmail.getText().toString().trim().isEmpty() && !userPsw.getText().toString().trim().isEmpty())
             FirebaseAuth.getInstance().fetchSignInMethodsForEmail(userEmail.getText().toString()).addOnCompleteListener(new OnCompleteListener<SignInMethodQueryResult>() {
                 @Override
                 public void onComplete(@NonNull Task<SignInMethodQueryResult> task) {

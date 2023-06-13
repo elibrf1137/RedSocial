@@ -5,7 +5,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -24,6 +27,8 @@ public class AdaptadorPublicaciones  extends RecyclerView.Adapter<AdaptadorPubli
     LayoutInflater layoutInflater;
     HashMap<String, String> listaPublicacion;
     View.OnClickListener onClickListener;
+    ImageView corazonRojo;
+    ImageView corazonNegro;
 
 
     public AdaptadorPublicaciones (Context context,HashMap listaPublicacion){
@@ -34,7 +39,6 @@ public class AdaptadorPublicaciones  extends RecyclerView.Adapter<AdaptadorPubli
                 Log.d("Datos que llegan al adaptador", (String) listaPublicacion.get(key));
             }
         }
-
     }
 
 
@@ -57,6 +61,21 @@ public class AdaptadorPublicaciones  extends RecyclerView.Adapter<AdaptadorPubli
         contenidoPublicacion = listAux.get(position);
         holder.contenido.setText(contenidoPublicacion);
         holder.contenido.setEnabled(false);
+
+
+        corazonNegro = holder.corazonNegro;
+        corazonRojo = holder.corazonRojo;
+        corazonNegro.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                corazonNegro.setVisibility(View.INVISIBLE);
+                corazonRojo.setVisibility(ImageView.VISIBLE);
+
+
+
+            }
+        });
+
     }
 
     @Override
@@ -73,9 +92,16 @@ public class AdaptadorPublicaciones  extends RecyclerView.Adapter<AdaptadorPubli
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView contenido;
-        CheckBox favorita;
+        ImageView corazonRojo;
+        ImageView corazonNegro;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            corazonNegro = itemView.findViewById(R.id.corazonNegro);
+            corazonNegro.setVisibility(ImageView.VISIBLE);
+
+            corazonRojo = itemView.findViewById(R.id.corazonRojo);
+            corazonRojo.setVisibility(ImageView.INVISIBLE);
+
             contenido = itemView.findViewById(R.id.descTextView);
         }
     }

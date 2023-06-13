@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.redsocial.HomeActivityNavigation;
 import com.example.redsocial.publicaciones.Publicacion;
 import com.example.redsocial.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -46,9 +47,8 @@ public class PulicationFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         miBaseDatos = FirebaseFirestore.getInstance();
-        if(getArguments() != null){
-            correoUser = getArguments().getString("bundleCorreoUser");
-        }
+
+        correoUser = HomeActivityNavigation.getCorreoUsuario();
 
         Toast.makeText(getContext(),"Correo de usuario: "+ correoUser,Toast.LENGTH_SHORT);
         myView =inflater.inflate(R.layout.fragment_pulication,container,false);
@@ -93,53 +93,6 @@ public class PulicationFragment extends Fragment {
         Map <String,Object> publicacionAnhadida = new HashMap<>();
         publicacionAnhadida.put(correoUser+publicacionAnhadida,publicacion);
         collectionRefPublication.add(publicacionAnhadida);
-
-    }
-
-
-    private void cargarListaPublicaciones(String publi){
-
-        // Obtén una referencia al documento
-        DocumentReference docRef = miBaseDatos.collection("Users").document(correoUser);
-
-        // Recupera los datos del documento
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        ArrayList<Publicacion>arrayList = new ArrayList<>();
-                        // Recupera el ArrayList existente
-                        String[] listPublication = document.getData().toString().split("\\[")[1].split("\\]")[0].split("/$$/");
-                        for (String s : listPublication){
-                            arrayList.add(new Publicacion(s));
-                        }
-                        // Realiza las modificaciones necesarias en el ArrayList
-                        arrayList.add(new Publicacion(publi));
-
-                        // Actualiza el ArrayList en el documento
-                        docRef.update("listaPublicaciones", arrayList)
-                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void aVoid) {
-                                        Log.d("Firestore", "ArrayList actualizado correctamente");
-                                    }
-                                }).addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        Log.d("Firestore", "Error al actualizar el ArrayList: " + e.getMessage());
-                                    }
-                                });
-                    } else {
-                        Log.d("Firestore", "El documento no existe");
-                    }
-                } else {
-                    Log.d("Firestore", "Error al recuperar el documento: " + task.getException());
-                }
-            }
-        });
-
     }
 }
 
