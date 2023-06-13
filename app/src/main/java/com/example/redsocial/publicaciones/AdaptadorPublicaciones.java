@@ -27,8 +27,6 @@ public class AdaptadorPublicaciones  extends RecyclerView.Adapter<AdaptadorPubli
     LayoutInflater layoutInflater;
     HashMap<String, String> listaPublicacion;
     View.OnClickListener onClickListener;
-    ImageView corazonRojo;
-    ImageView corazonNegro;
 
 
     public AdaptadorPublicaciones (Context context,HashMap listaPublicacion){
@@ -62,20 +60,6 @@ public class AdaptadorPublicaciones  extends RecyclerView.Adapter<AdaptadorPubli
         holder.contenido.setText(contenidoPublicacion);
         holder.contenido.setEnabled(false);
 
-
-        corazonNegro = holder.corazonNegro;
-        corazonRojo = holder.corazonRojo;
-        corazonNegro.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                corazonNegro.setVisibility(View.INVISIBLE);
-                corazonRojo.setVisibility(ImageView.VISIBLE);
-
-
-
-            }
-        });
-
     }
 
     @Override
@@ -96,12 +80,6 @@ public class AdaptadorPublicaciones  extends RecyclerView.Adapter<AdaptadorPubli
         ImageView corazonNegro;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            corazonNegro = itemView.findViewById(R.id.corazonNegro);
-            corazonNegro.setVisibility(ImageView.VISIBLE);
-
-            corazonRojo = itemView.findViewById(R.id.corazonRojo);
-            corazonRojo.setVisibility(ImageView.INVISIBLE);
-
             contenido = itemView.findViewById(R.id.descTextView);
         }
     }
