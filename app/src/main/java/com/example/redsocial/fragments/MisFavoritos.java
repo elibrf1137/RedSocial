@@ -16,6 +16,7 @@ import android.widget.Button;
 
 import com.example.redsocial.HomeActivityNavigation;
 import com.example.redsocial.R;
+import com.example.redsocial.publicaciones.AdaptadorFavoritos;
 import com.example.redsocial.publicaciones.AdaptadorPublicaciones;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -29,10 +30,9 @@ import java.util.HashMap;
 public class MisFavoritos extends Fragment {
     private String correoUser;
     private FirebaseFirestore databaseReference;
-    private Button addPublicationButton;
     private HashMap<String, String> listaPublicaciones;
     private RecyclerView recyclerViewPublicaciones;
-    private AdaptadorPublicaciones adaptadorPublicaciones;
+    private AdaptadorFavoritos adaptadorFavoritos;
     private View miView;
 
     public MisFavoritos() {
@@ -85,7 +85,7 @@ public class MisFavoritos extends Fragment {
 
     private void mostrarDatos() {
         recyclerViewPublicaciones.setLayoutManager(new LinearLayoutManager(getContext()));
-        adaptadorPublicaciones = new AdaptadorPublicaciones(miView.getContext(), listaPublicaciones);
-        recyclerViewPublicaciones.setAdapter(adaptadorPublicaciones);
+        adaptadorFavoritos = new AdaptadorFavoritos(miView.getContext(), listaPublicaciones);
+        recyclerViewPublicaciones.setAdapter(adaptadorFavoritos);
     }
 }

@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.redsocial.HomeActivityNavigation;
 import com.example.redsocial.R;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -25,7 +24,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AdaptadorPublicaciones  extends RecyclerView.Adapter<AdaptadorPublicaciones.ViewHolder> implements View.OnClickListener{
+public class AdaptadorFavoritos extends RecyclerView.Adapter<AdaptadorFavoritos.ViewHolder> implements View.OnClickListener{
 
     LayoutInflater layoutInflater;
     HashMap<String, String> listaPublicacion;
@@ -37,7 +36,7 @@ public class AdaptadorPublicaciones  extends RecyclerView.Adapter<AdaptadorPubli
 
 
 
-    public AdaptadorPublicaciones (Context context,HashMap listaPublicacion){
+    public AdaptadorFavoritos (Context context, HashMap listaPublicacion){
         this.layoutInflater = LayoutInflater.from(context);
         this.listaPublicacion = listaPublicacion;
         if(!listaPublicacion.isEmpty()){
@@ -51,10 +50,10 @@ public class AdaptadorPublicaciones  extends RecyclerView.Adapter<AdaptadorPubli
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        miView = layoutInflater.inflate(R.layout.visualizar_publiacion,parent,false);
+    public AdaptadorFavoritos.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        miView = layoutInflater.inflate(R.layout.visualizar_favoritos,parent,false);
         miView.setOnClickListener(this);
-        return new ViewHolder(miView);
+        return new AdaptadorFavoritos.ViewHolder(miView);
     }
 
     @Override
@@ -99,6 +98,24 @@ public class AdaptadorPublicaciones  extends RecyclerView.Adapter<AdaptadorPubli
         });
     }
 
+    private void eliminarPublicacion(String publicacion){
+        miBaseDatos = FirebaseFirestore.getInstance();
+        // Obtén una referencia al documento que deseas actualizar
+        DocumentReference documentRef = miBaseDatos.collection("Users").document(correoUser);
+
+        // Crea un mapa para indicar el campo que deseas eliminar
+        Map<String, Object> updates = new HashMap<>();
+        updates.put("Favoritos", FieldValue.delete());
+
+        // Actualiza el documento para eliminar el campo
+        documentRef.update(updates).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Toast.makeText(miView.getContext(),"Publicación eliminada a favoritos",Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     @Override
     public int getItemCount() {
         return listaPublicacion.size();
@@ -116,8 +133,8 @@ public class AdaptadorPublicaciones  extends RecyclerView.Adapter<AdaptadorPubli
         Button corazon;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            contenido = itemView.findViewById(R.id.descTextView);
-            corazon = itemView.findViewById(R.id.corazonButton);
+            contenido = itemView.findViewById(R.id.descFavoritosTextView);
+            corazon = itemView.findViewById(R.id.corazonButtonFavoritos);
         }
     }
 }

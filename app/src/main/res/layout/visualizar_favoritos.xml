@@ -8,15 +8,15 @@
     android:padding="15dp">
 
     <Button
-        android:id="@+id/corazonButton"
+        android:id="@+id/corazonButtonFavoritos"
         android:layout_width="64dp"
         android:layout_height="wrap_content"
         android:background="#00FFFFFF"
-        android:drawableEnd="@drawable/corazonrojo"
+        android:drawableEnd="@drawable/corazonnegro"
         android:textSize="34sp" />
 
     <TextView
-        android:id="@+id/descTextView"
+        android:id="@+id/descFavoritosTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
