@@ -59,7 +59,7 @@
                 android:text="Añadir" />
 
             <Button
-                android:id="@+id/miFavoritos"
+                android:id="@+id/miFavoritosButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

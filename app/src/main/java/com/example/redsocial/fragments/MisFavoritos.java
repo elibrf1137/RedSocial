@@ -44,29 +44,15 @@ public class MisFavoritos extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         miView = inflater.inflate(R.layout.fragment_mis_favoritos, container, false);
-        recyclerViewPublicaciones = miView.findViewById(R.id.listaPublicacionesPersonales);
+        recyclerViewPublicaciones = miView.findViewById(R.id.publicacionesFavoritasRV);
         initComponents();
-        //Toast.makeText(getContext(),correoUser,Toast.LENGTH_SHORT).show();
         consultaDatos();
-
-        addPublicationButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                // Configura una transición de entrada y salida para los fragmentos
-                transaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out);
-                // Crea una instancia del fragmento secundario y lo muestra encima del fragmento actual
-                transaction.add(android.R.id.content, new PulicationFragment()).addToBackStack(null).commit();
-
-            }
-        });
         return miView;
     }
 
     private void initComponents() {
         listaPublicaciones = new HashMap<>();
         correoUser = HomeActivityNavigation.getCorreoUsuario();
-        addPublicationButton = miView.findViewById(R.id.addPublicationButtonProfile);
         databaseReference = FirebaseFirestore.getInstance();
     }
 

@@ -35,10 +35,12 @@ public class ProfileFragment extends Fragment {
     private String correoUser;
     private FirebaseFirestore databaseReference;
     private Button addPublicationButton;
+    private Button moveFavoritePublications;
     private HashMap<String, String> listaPublicaciones;
     private RecyclerView recyclerViewPublicaciones;
     private AdaptadorPublicaciones adaptadorPublicaciones;
     private View miView;
+    MisFavoritos misFavoritosFragment;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -64,6 +66,16 @@ public class ProfileFragment extends Fragment {
 
             }
         });
+
+        moveFavoritePublications.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                transaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out);
+                transaction.replace(R.id.frametLayout,misFavoritosFragment);
+                transaction.commit();
+            }
+        });
         return miView;
     }
 
@@ -71,7 +83,9 @@ public class ProfileFragment extends Fragment {
         listaPublicaciones = new HashMap<>();
         correoUser = HomeActivityNavigation.getCorreoUsuario();
         addPublicationButton = miView.findViewById(R.id.addPublicationButtonProfile);
+        moveFavoritePublications = miView.findViewById(R.id.miFavoritosButton);
         databaseReference = FirebaseFirestore.getInstance();
+        misFavoritosFragment = new MisFavoritos();
     }
 
     private void consultaDatos() {
