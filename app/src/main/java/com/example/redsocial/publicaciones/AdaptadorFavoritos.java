@@ -14,9 +14,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.redsocial.HomeActivityNavigation;
 import com.example.redsocial.R;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -24,34 +27,34 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AdaptadorFavoritos extends RecyclerView.Adapter<AdaptadorFavoritos.ViewHolder> implements View.OnClickListener{
+public class AdaptadorFavoritos extends RecyclerView.Adapter<AdaptadorFavoritos.ViewHolder> implements View.OnClickListener {
 
     LayoutInflater layoutInflater;
-    HashMap<String, String> listaPublicacion;
+    HashMap<String, Object> listaPublicacion;
     Button corazonButton;
     View.OnClickListener onClickListener;
     FirebaseFirestore miBaseDatos;
     String correoUser = HomeActivityNavigation.getCorreoUsuario();
     View miView;
 
+    private FirebaseFirestore databaseReference;
 
 
-    public AdaptadorFavoritos (Context context, HashMap listaPublicacion){
+    public AdaptadorFavoritos(Context context, HashMap listaPublicacion) {
         this.layoutInflater = LayoutInflater.from(context);
         this.listaPublicacion = listaPublicacion;
-        if(!listaPublicacion.isEmpty()){
-            for(String key: this.listaPublicacion.keySet()){
+        if (!listaPublicacion.isEmpty()) {
+            for (String key : this.listaPublicacion.keySet()) {
                 Log.d("Datos que llegan al adaptador", (String) listaPublicacion.get(key));
             }
         }
     }
 
 
-
     @NonNull
     @Override
     public AdaptadorFavoritos.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        miView = layoutInflater.inflate(R.layout.visualizar_favoritos,parent,false);
+        miView = layoutInflater.inflate(R.layout.visualizar_favoritos, parent, false);
         miView.setOnClickListener(this);
         return new AdaptadorFavoritos.ViewHolder(miView);
     }
@@ -60,8 +63,12 @@ public class AdaptadorFavoritos extends RecyclerView.Adapter<AdaptadorFavoritos.
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         ArrayList<String> listAux = new ArrayList<>();
         String contenidoPublicacion;
-        for (String key: listaPublicacion.keySet()) {
-            listAux.add(listaPublicacion.get(key));
+        //listaPublicacion = new HashMap<>();
+        correoUser = HomeActivityNavigation.getCorreoUsuario();
+        databaseReference = FirebaseFirestore.getInstance();
+
+        for (String key : listaPublicacion.keySet()) {
+            listAux.add(listaPublicacion.get(key).toString());
         }
         contenidoPublicacion = listAux.get(position);
         holder.contenido.setText(contenidoPublicacion);
@@ -71,50 +78,42 @@ public class AdaptadorFavoritos extends RecyclerView.Adapter<AdaptadorFavoritos.
         corazonButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                agregarPublicaciones(contenidoPublicacion);
+                eliminarPublicacion(contenidoPublicacion);
             }
         });
     }
 
-    public void agregarPublicaciones(String publicacion){
-
-        // Obtén una referencia al documento
-
+    public void eliminarPublicacion(String publicacion) {
         miBaseDatos = FirebaseFirestore.getInstance();
         DocumentReference docRefUser = miBaseDatos.collection("Users").document(correoUser);
-        CollectionReference collectionRefPublication = miBaseDatos.collection("Favoritos");
 
-        // Actualiza el array en el documento
-        docRefUser.update("Favoritos", FieldValue.arrayUnion(publicacion)).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                Log.d("Firestore", "Elemento añadido al array correctamente");
-                Toast.makeText(miView.getContext(),"Publicación añadida a favoritos",Toast.LENGTH_SHORT).show();
-                Map<String,Object> publicacionAnhadida = new HashMap<>();
-                publicacionAnhadida.put(correoUser+publicacionAnhadida,publicacion);
-                collectionRefPublication.add(publicacionAnhadida);
+        // Crear un nuevo Map para almacenar los campos y valores actualizados
+        HashMap<String, Object> updates = new HashMap<>();
+        for (String key : listaPublicacion.keySet()) {
+            if (!listaPublicacion.get(key).equals(publicacion)) {
+                // Agregamos la publicación al nuevo Map para mantenerla
+                updates.put(key, listaPublicacion.get(key));
             }
+        }
 
-        });
-    }
-
-    private void eliminarPublicacion(String publicacion){
-        miBaseDatos = FirebaseFirestore.getInstance();
-        // Obtén una referencia al documento que deseas actualizar
-        DocumentReference documentRef = miBaseDatos.collection("Users").document(correoUser);
-
-        // Crea un mapa para indicar el campo que deseas eliminar
-        Map<String, Object> updates = new HashMap<>();
-        updates.put("Favoritos", FieldValue.delete());
-
-        // Actualiza el documento para eliminar el campo
-        documentRef.update(updates).addOnSuccessListener(new OnSuccessListener<Void>() {
+        // Actualizar el documento con el nuevo Map de actualizaciones
+        docRefUser.update(updates).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
-            public void onSuccess(Void aVoid) {
-                Toast.makeText(miView.getContext(),"Publicación eliminada a favoritos",Toast.LENGTH_SHORT).show();
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    Toast.makeText(miView.getContext(), "Publicación eliminada de favoritos", Toast.LENGTH_SHORT).show();
+                    listaPublicacion = updates; // Actualizar la lista local
+                    notifyDataSetChanged();
+                } else {
+                    // Ocurrió un error al actualizar el documento
+                    Toast.makeText(miView.getContext(), "Error al eliminar la publicación de favoritos", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
+
+
+
 
     @Override
     public int getItemCount() {
@@ -123,7 +122,7 @@ public class AdaptadorFavoritos extends RecyclerView.Adapter<AdaptadorFavoritos.
 
     @Override
     public void onClick(View v) {
-        if(onClickListener!=null){
+        if (onClickListener != null) {
             onClickListener.onClick(v);
         }
     }
@@ -131,10 +130,37 @@ public class AdaptadorFavoritos extends RecyclerView.Adapter<AdaptadorFavoritos.
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView contenido;
         Button corazon;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             contenido = itemView.findViewById(R.id.descFavoritosTextView);
             corazon = itemView.findViewById(R.id.corazonButtonFavoritos);
         }
+    }
+
+    private void consultaDatos() {
+        DocumentReference documentoRef = databaseReference.collection("Users").document(correoUser);
+        // Obtén el documento
+        documentoRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists() && document.get("Favoritos") != null) {
+                        // Obtiene el valor del campo de tipo array
+                        ArrayList<String> publicaciones = (ArrayList<String>) document.get("Favoritos");
+                        if (publicaciones.size() > 0) {
+                            for (int i = 0; i < publicaciones.size(); i++) {
+                                listaPublicacion.put(correoUser+(i), publicaciones.get(i));
+                            }
+                        }
+                    } else {
+                        Log.d("TAG", "El documento no existe");
+                    }
+                } else {
+                    Log.d("TAG", "Error obteniendo el documento: ", task.getException());
+                }
+            }
+        });
     }
 }

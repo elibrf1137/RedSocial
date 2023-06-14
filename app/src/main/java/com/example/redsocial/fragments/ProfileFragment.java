@@ -13,23 +13,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.example.redsocial.HomeActivityNavigation;
 import com.example.redsocial.R;
 import com.example.redsocial.publicaciones.AdaptadorPublicaciones;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class ProfileFragment extends Fragment {
     private String correoUser;
@@ -40,7 +35,7 @@ public class ProfileFragment extends Fragment {
     private RecyclerView recyclerViewPublicaciones;
     private AdaptadorPublicaciones adaptadorPublicaciones;
     private View miView;
-    MisFavoritos misFavoritosFragment;
+    MisFavoritosFragment misFavoritosFragment;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -85,7 +80,7 @@ public class ProfileFragment extends Fragment {
         addPublicationButton = miView.findViewById(R.id.addPublicationButtonProfile);
         moveFavoritePublications = miView.findViewById(R.id.miFavoritosButton);
         databaseReference = FirebaseFirestore.getInstance();
-        misFavoritosFragment = new MisFavoritos();
+        misFavoritosFragment = new MisFavoritosFragment();
     }
 
     private void consultaDatos() {

@@ -4,7 +4,6 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -12,12 +11,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import com.example.redsocial.HomeActivityNavigation;
 import com.example.redsocial.R;
 import com.example.redsocial.publicaciones.AdaptadorFavoritos;
-import com.example.redsocial.publicaciones.AdaptadorPublicaciones;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
@@ -27,7 +24,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class MisFavoritos extends Fragment {
+public class MisFavoritosFragment extends Fragment {
     private String correoUser;
     private FirebaseFirestore databaseReference;
     private HashMap<String, String> listaPublicaciones;
@@ -35,14 +32,13 @@ public class MisFavoritos extends Fragment {
     private AdaptadorFavoritos adaptadorFavoritos;
     private View miView;
 
-    public MisFavoritos() {
+    public MisFavoritosFragment() {
         // Required empty public constructor
     }
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         miView = inflater.inflate(R.layout.fragment_mis_favoritos, container, false);
         recyclerViewPublicaciones = miView.findViewById(R.id.publicacionesFavoritasRV);
         initComponents();
