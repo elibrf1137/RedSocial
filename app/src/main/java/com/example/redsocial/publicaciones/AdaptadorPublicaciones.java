@@ -99,6 +99,7 @@ public class AdaptadorPublicaciones  extends RecyclerView.Adapter<AdaptadorPubli
         });
     }
 
+
     @Override
     public int getItemCount() {
         return listaPublicacion.size();

@@ -86,15 +86,17 @@ public class AdaptadorFavoritos extends RecyclerView.Adapter<AdaptadorFavoritos.
     public void eliminarPublicacion(String publicacion) {
         miBaseDatos = FirebaseFirestore.getInstance();
         DocumentReference docRefUser = miBaseDatos.collection("Users").document(correoUser);
-
+        HashMap<String, Object> auxiliar = new HashMap<>();
         // Crear un nuevo Map para almacenar los campos y valores actualizados
         HashMap<String, Object> updates = new HashMap<>();
         for (String key : listaPublicacion.keySet()) {
             if (!listaPublicacion.get(key).equals(publicacion)) {
-                // Agregamos la publicación al nuevo Map para mantenerla
-                updates.put(key, listaPublicacion.get(key));
+                // eliminamos la publicación al nuevo Map para mantenerla
+                auxiliar.put(key,listaPublicacion.get(key));
             }
+
         }
+        updates.put("Favoritos", auxiliar);
 
         // Actualizar el documento con el nuevo Map de actualizaciones
         docRefUser.update(updates).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -102,7 +104,7 @@ public class AdaptadorFavoritos extends RecyclerView.Adapter<AdaptadorFavoritos.
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
                     Toast.makeText(miView.getContext(), "Publicación eliminada de favoritos", Toast.LENGTH_SHORT).show();
-                    listaPublicacion = updates; // Actualizar la lista local
+                    listaPublicacion = auxiliar; // Actualizar la lista local
                     notifyDataSetChanged();
                 } else {
                     // Ocurrió un error al actualizar el documento

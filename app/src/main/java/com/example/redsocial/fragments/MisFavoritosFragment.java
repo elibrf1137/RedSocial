@@ -62,13 +62,18 @@ public class MisFavoritosFragment extends Fragment {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists() && document.get("Favoritos") != null) {
                         // Obtiene el valor del campo de tipo array
-                        ArrayList<String> publicaciones = (ArrayList<String>) document.get("Favoritos");
-                        if (publicaciones.size() > 0) {
-                            for (int i = 0; i < publicaciones.size(); i++) {
-                                listaPublicaciones.put(correoUser+(i), publicaciones.get(i));
+                        String comprobar = document.get("Favoritos").toString();
+                        Log.d("Contenido del String",comprobar);
+                        if(!comprobar.equals("{}")){
+                            ArrayList<String> publicaciones = (ArrayList<String>) document.get("Favoritos");
+                            if (publicaciones.size() > 0) {
+                                for (int i = 0; i < publicaciones.size(); i++) {
+                                    listaPublicaciones.put(correoUser+(i), publicaciones.get(i));
+                                }
+                                mostrarDatos();
                             }
-                            mostrarDatos();
                         }
+
                     } else {
                         Log.d("TAG", "El documento no existe");
                     }
