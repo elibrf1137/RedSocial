@@ -60,6 +60,7 @@ public class PulicationFragment extends Fragment {
                     if(mensajeEditText.length()<120){
                         agregarPublicaciones(mensajeEditText.getText().toString());
                         Toast.makeText(getContext(),"Publicación creada",Toast.LENGTH_SHORT).show();
+                        mensajeEditText.setText("");
                     }else{
                         Toast.makeText(getContext(),"El tamaño de la publicación es demasiado grande",Toast.LENGTH_SHORT).show();
                     }

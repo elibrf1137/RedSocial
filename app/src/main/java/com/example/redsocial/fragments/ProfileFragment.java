@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.example.redsocial.HomeActivityNavigation;
 import com.example.redsocial.R;
@@ -28,6 +29,7 @@ import java.util.HashMap;
 
 public class ProfileFragment extends Fragment {
     private String correoUser;
+    private TextView correo;
     private FirebaseFirestore databaseReference;
     private Button addPublicationButton;
     private Button moveFavoritePublications;
@@ -47,6 +49,7 @@ public class ProfileFragment extends Fragment {
         miView = inflater.inflate(R.layout.fragment_profile, container, false);
         recyclerViewPublicaciones = miView.findViewById(R.id.listaPublicacionesPersonales);
         initComponents();
+        correo.setText(correoUser);
         //Toast.makeText(getContext(),correoUser,Toast.LENGTH_SHORT).show();
         consultaDatos();
 
@@ -81,6 +84,7 @@ public class ProfileFragment extends Fragment {
         moveFavoritePublications = miView.findViewById(R.id.miFavoritosButton);
         databaseReference = FirebaseFirestore.getInstance();
         misFavoritosFragment = new MisFavoritosFragment();
+        correo = miView.findViewById(R.id.correoProfile);
     }
 
     private void consultaDatos() {

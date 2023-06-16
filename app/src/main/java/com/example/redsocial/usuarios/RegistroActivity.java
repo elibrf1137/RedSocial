@@ -2,6 +2,7 @@ package com.example.redsocial.usuarios;
 
 import android.app.Dialog;
 import android.os.Bundle;
+import android.se.omapi.Session;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,7 +22,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.net.PasswordAuthentication;
 import java.util.HashMap;
+import java.util.Properties;
 
 public class RegistroActivity extends AppCompatActivity {
     private FirebaseDatabase database;
@@ -81,12 +84,5 @@ public class RegistroActivity extends AppCompatActivity {
     }
 
 //------------------------------------------------------------------------
-    //private void userCreado(){
-    //    AlertDialog.Builder builder = new AlertDialog.Builder(this);
-    //    builder.setTitle("Correcto!");
-    //    builder.setMessage("Se ha añadido tu usuario correctamente");
-    //    builder.setPositiveButton("Aceptar",null);
-    //    Dialog dialog = builder.create();
-    //    dialog.show();
-    //}
+
 }

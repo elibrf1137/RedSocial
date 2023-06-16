@@ -83,7 +83,7 @@ public class AdaptadorPublicaciones  extends RecyclerView.Adapter<AdaptadorPubli
 
         miBaseDatos = FirebaseFirestore.getInstance();
         DocumentReference docRefUser = miBaseDatos.collection("Users").document(correoUser);
-        CollectionReference collectionRefPublication = miBaseDatos.collection("Favoritos");
+        //CollectionReference collectionRefPublication = miBaseDatos.collection("Favoritos");
 
         // Actualiza el array en el documento
         docRefUser.update("Favoritos", FieldValue.arrayUnion(publicacion)).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -93,7 +93,7 @@ public class AdaptadorPublicaciones  extends RecyclerView.Adapter<AdaptadorPubli
                 Toast.makeText(miView.getContext(),"Publicación añadida a favoritos",Toast.LENGTH_SHORT).show();
                 Map<String,Object> publicacionAnhadida = new HashMap<>();
                 publicacionAnhadida.put(correoUser+publicacionAnhadida,publicacion);
-                collectionRefPublication.add(publicacionAnhadida);
+                //collectionRefPublication.add(publicacionAnhadida);
             }
 
         });
