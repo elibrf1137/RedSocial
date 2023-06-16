@@ -50,17 +50,14 @@ public class PulicationFragment extends Fragment {
 
         correoUser = HomeActivityNavigation.getCorreoUsuario();
 
-        Toast.makeText(getContext(),"Correo de usuario: "+ correoUser,Toast.LENGTH_SHORT);
         myView =inflater.inflate(R.layout.fragment_pulication,container,false);
         addButton = myView.findViewById(R.id.addPublicationButton);
         mensajeEditText = myView.findViewById(R.id.pulicationEditTextText);
-
-        Toast.makeText(getContext(),"Correo de usuario:"+correoUser,Toast.LENGTH_SHORT).show();
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(!mensajeEditText.getText().toString().isEmpty() && mensajeEditText !=null){
-                    if(mensajeEditText.length()<250){
+                    if(mensajeEditText.length()<120){
                         agregarPublicaciones(mensajeEditText.getText().toString());
                         Toast.makeText(getContext(),"Publicación creada",Toast.LENGTH_SHORT).show();
                     }else{

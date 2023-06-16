@@ -5,7 +5,8 @@
     android:layout_height="wrap_content"
     android:layout_marginBottom="18dp"
     android:background="@drawable/estilo_botones"
-    android:padding="5dp">
+    android:padding="5dp"
+    android:paddingEnd="15dp">
 
     <Button
         android:id="@+id/corazonButton"
