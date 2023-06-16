@@ -64,7 +64,6 @@ public class HomeFragment extends Fragment {
                 if(task.isSuccessful()){
                     String publicacion;
                     for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()){
-                        Log.d("Contenido base de datos",queryDocumentSnapshot.getId() + "==>" + queryDocumentSnapshot.getData());
                         publicacion =  queryDocumentSnapshot.getData().toString().split("=")[1].substring(0,queryDocumentSnapshot.getData().toString().split("=")[1].length()-1);
                         listaPublicaciones.put(queryDocumentSnapshot.getId(),publicacion);
                     }

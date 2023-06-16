@@ -38,7 +38,6 @@ public class HomeActivityNavigation extends AppCompatActivity {
         setContentView(R.layout.activity_home_navigation);
         initComponente();
         correoUsuario = getDatos.getString("correoUsuario");
-        Log.d("Correo desde HomeActivityNavigation",correoUsuario);
         setFragment(homeFragment);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {

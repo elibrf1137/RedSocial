@@ -60,11 +60,15 @@ public class PulicationFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if(!mensajeEditText.getText().toString().isEmpty() && mensajeEditText !=null){
-                    agregarPublicaciones(mensajeEditText.getText().toString());
-                    Log.d("Mensaje añadido con exito","Dale zelda dale");
-                    Toast.makeText(getContext(),"Dale zelda dale",Toast.LENGTH_SHORT).show();
+                    if(mensajeEditText.length()<250){
+                        agregarPublicaciones(mensajeEditText.getText().toString());
+                        Toast.makeText(getContext(),"Publicación creada",Toast.LENGTH_SHORT).show();
+                    }else{
+                        Toast.makeText(getContext(),"El tamaño de la publicación es demasiado grande",Toast.LENGTH_SHORT).show();
+                    }
+
                 }else{
-                    Toast.makeText(getContext(),"Me cago en la leche",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(),"Upss, ha ocurrido un error",Toast.LENGTH_SHORT).show();
                 }
 
             }

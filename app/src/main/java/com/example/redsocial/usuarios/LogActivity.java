@@ -57,7 +57,6 @@ public class LogActivity extends AppCompatActivity {
                         Bundle datosUsuario = new Bundle();
                         SignInMethodQueryResult result = task.getResult();
                         if(!Objects.requireNonNull(result.getSignInMethods()).isEmpty()){
-                            Log.d("Correo del usuario: ",userEmail.getText().toString());
                             datosUsuario.putString("correoUsuario",userEmail.getText().toString());
                             Intent intentHomeActivity = new Intent(getApplicationContext(), HomeActivityNavigation.class);
                             intentHomeActivity.putExtras(datosUsuario);

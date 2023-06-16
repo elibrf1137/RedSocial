@@ -63,7 +63,6 @@ public class MisFavoritosFragment extends Fragment {
                     if (document.exists() && document.get("Favoritos") != null) {
                         // Obtiene el valor del campo de tipo array
                         String comprobar = document.get("Favoritos").toString();
-                        Log.d("Contenido del String",comprobar);
                         if(!comprobar.equals("{}")){
                             ArrayList<String> publicaciones = (ArrayList<String>) document.get("Favoritos");
                             if (publicaciones.size() > 0) {
