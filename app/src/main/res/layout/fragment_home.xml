@@ -4,12 +4,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.HomeFragment"
-    android:background="@drawable/background7">
+    android:background="@drawable/background8">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/listaPublicacionesRV"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="20dp"
-        android:background="#9AA8D0" />
+        android:layout_margin="20dp"/>
 </FrameLayout>
